@@ -4,11 +4,11 @@ import { db, auth } from "../../config/config.js";
 
 class Register extends Component{
     constructor(){
-        suuper()
+        super()
         this.state={
             email:'',
             password:'',
-            username:'',
+            name:'',
             bio:'',
             img:'',
         }
@@ -18,22 +18,22 @@ class Register extends Component{
     componentDidMount(){
         console.log('Hizo el didMount y estas son sus props')
         console.log(this.props)
-        // despues poner que te redireccione al home    
+        // despues poner que te redireccione al login    
     }
 
 
-    registrarse(email,password,username){
+    onSubmit(name,email,password){
         if(
-            username === null || username === '' || username.length < 4
+            name === null || name === '' || name.length < 4
         ){
             this.setState({error: 'El nombre de usuario debe ser mayor a 4 caracteres'})
             return false
         }
-        if(
-            email === null || email === '' || !email.includes('@')
-        ){
-            this.setState({error: 'Email invalido'})
-            return false
+         if(
+             email === null || email === '' || !email.includes('@')
+         ){
+             this.setState({error: 'Email invalido'})
+             return false
         }
         if(
 
@@ -65,7 +65,7 @@ class Register extends Component{
 render(){
     return(
         <View>
-        <Text>Registra tu usuario</Text>
+        <Text>Registrar un usuario</Text>
         <TextInput
             onChangeText={(text) => this.setState({name: text, error: ''})}
             value={this.state.name}
@@ -76,7 +76,7 @@ render(){
         <TextInput
             onChangeText={(text) => this.setState({email: text, error: ''})}
             value={this.state.email}
-            placeholder='Indica tu email'
+            placeholder='email           *obligatorio*'
             keyboardType='default'
             style={styles.input}
         />
@@ -115,3 +115,60 @@ render(){
     )
 }
 }   
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: '#141414', // Netflix background color
+    },
+    title: {
+        color: '#fff', // White text
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    input: {
+        borderColor: '#e50914', // Netflix red color
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 16,
+        color: '#fff', // White text
+        backgroundColor: '#333', // Darker background for input
+    },
+    btn: {
+        backgroundColor: '#e50914', // Netflix red color
+        textAlign: 'center',
+        padding: 10,
+        borderRadius: 5,
+    },
+    textBtn: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    footer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    footerText: {
+        color: '#fff', // White text
+    },
+    link: {
+        color: '#e50914', // Netflix red color
+        fontWeight: 'bold',
+    },
+    error: {
+        color: '#e50914', // Netflix red color
+        textAlign: 'center',
+        marginTop: 10,
+    }
+});
+
+
+
+export default Register

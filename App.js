@@ -1,14 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Principal from './src/Navs/Principal';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>TP FINAL PROGRA 3</Text>
-      <Text>repo listo!</Text>
-
-   
-    </View>
+  <Principal></Principal>
   );
 }
 

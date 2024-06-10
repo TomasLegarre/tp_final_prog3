@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-import Register from '../screens/Register/Register';
+import Register from '../screens/Register/register';
 
 
 const Stack = createNativeStackNavigator();
