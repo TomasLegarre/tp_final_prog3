@@ -3,15 +3,14 @@ import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
-
-
 import Register from '../screens/Register/register';
 import Login from '../screens/Login/login';
+import NavTab from './NavTab'
 
 
 const Stack = createNativeStackNavigator();
 
-class Principal extends Component {
+class StackPrincipal extends Component {
     constructor(){
         super()
         this.state={
@@ -27,6 +26,7 @@ class Principal extends Component {
             <Stack.Navigator>
               <Stack.Screen name='Register' component={Register} options={{headerShown :false}}  />
               <Stack.Screen name='login' component={Login} options={{headerShown :false}}  />
+              <Stack.Screen name='navtab' component={NavTab} options={{headerShown :false}}  /> 
 
             </Stack.Navigator>
     
@@ -34,6 +34,8 @@ class Principal extends Component {
         )
     }
 }
+
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -43,4 +45,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default Principal
+export default StackPrincipal;

@@ -20,7 +20,7 @@ class Login extends Component {
     });
   }
 
-  logIn(email, password) {
+  loginUser(email, password) {
     if (email === null || email === '' || !email.includes('@')) {
       this.setState({ error: 'FORMATO DEL MAIL INVALIDO' });
       return false;
@@ -32,17 +32,17 @@ class Login extends Component {
 
     auth.signInWithEmailAndPassword(email, password)
       .then(user => {
-        this.props.navigation.navigate('tabnav');
+        this.props.navigation.navigate('navtab');
       })
       .catch(err => {
         if (err.code === 'auth/internal-error') {
-          this.setState({ error: 'Contraseña incorrecta' });
+          this.setState({ error: 'Contraseña o Email incorrecta' });
         }
       });
   }
 
   redirect() {
-    this.props.navigation.navigate('register');
+    this.props.navigation.navigate('Register');
   }
 
   render() {
@@ -68,7 +68,7 @@ class Login extends Component {
         />
         <TouchableOpacity
           style={styles.btn}
-          onPress={() => this.logIn(this.state.email, this.state.password)}
+          onPress={() => this.loginUser(this.state.email, this.state.password)}
         >
           <Text style={styles.textBtn}>INGRESAR</Text>
         </TouchableOpacity>
