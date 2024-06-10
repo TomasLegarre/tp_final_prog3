@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 import Register from '../screens/Register/register';
+import Login from '../screens/Login/login';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,8 @@ class Principal extends Component {
 
             <Stack.Navigator>
               <Stack.Screen name='Register' component={Register} options={{headerShown :false}}  />
+              <Stack.Screen name='login' component={Login} options={{headerShown :false}}  />
+
             </Stack.Navigator>
     
           </NavigationContainer>
