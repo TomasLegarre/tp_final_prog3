@@ -3,8 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { db, auth } from "../../config/config.js";
 
 class Register extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             email: '',
             password: '',
@@ -52,10 +52,10 @@ class Register extends Component {
         })
     }
 
-    redirect() {
+    redirect = () => {
         this.props.navigation.navigate('login');
     }
-
+    
 
     render() {
         const { scale } = this.state;
