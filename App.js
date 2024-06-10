@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Principal from './src/Navs/Principal';
+import StackPrincipal from './src/Navs/StackPrincipal';
 
 export default function App() {
   return (
-  <Principal></Principal>
+  <StackPrincipal/>
   );
 }
 
