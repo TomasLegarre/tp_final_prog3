@@ -25,7 +25,7 @@ class Login extends Component {
       this.setState({ error: 'FORMATO DEL MAIL INVALIDO' });
       return false;
     }
-    if (password === null || password === '') {
+    if (password === null || password === '' || password.length < 6) {
       this.setState({ error: 'LA CONTRASEÑA DEBE TENER MINIMO 6 CARACTERES' });
       return false;
     }
@@ -48,44 +48,46 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>INGRESE AQUI</Text>
-        <TextInput
-          onChangeText={(text) => this.setState({ email: text, error: '' })}
-          value={this.state.email}
-          placeholder='Escriba su @ email'
-          keyboardType='default'
-          style={styles.input}
-          placeholderTextColor="#888"
-        />
-        <TextInput
-          onChangeText={(text) => this.setState({ password: text, error: '' })}
-          value={this.state.password}
-          placeholder='Ingrese su contraseña * * *'
-          keyboardType='default'
-          secureTextEntry={true}
-          style={styles.input}
-          placeholderTextColor="#888"
-        />
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => this.loginUser(this.state.email, this.state.password)}
-        >
-          <Text style={styles.textBtn}>INGRESAR</Text>
-        </TouchableOpacity>
-
-        <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>¿No tienes una cuenta?</Text>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>INGRESE AQUI</Text>
+          <TextInput
+            onChangeText={(text) => this.setState({ email: text, error: '' })}
+            value={this.state.email}
+            placeholder='Escriba su @ email'
+            keyboardType='default'
+            style={styles.input}
+            placeholderTextColor="#888"
+          />
+          <TextInput
+            onChangeText={(text) => this.setState({ password: text, error: '' })}
+            value={this.state.password}
+            placeholder='Ingrese su contraseña * * *'
+            keyboardType='default'
+            secureTextEntry={true}
+            style={styles.input}
+            placeholderTextColor="#888"
+          />
           <TouchableOpacity
-            onPress={() => this.redirect()}
+            style={styles.btn}
+            onPress={() => this.loginUser(this.state.email, this.state.password)}
           >
-            <Text style={styles.registerLink}> Registrate</Text>
+            <Text style={styles.textBtn}>INGRESAR</Text>
           </TouchableOpacity>
+
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              ¿No tienes una cuenta?
+              <TouchableOpacity onPress={() => this.redirect()}>
+                <Text style={styles.link}> Registrate</Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
+          {this.state.error !== '' &&
+            <Text style={styles.error}>
+              {this.state.error}
+            </Text>
+          }
         </View>
-        {this.state.error !== '' &&
-          <Text style={styles.errorText}>
-            {this.state.error}
-          </Text>
-        }
       </View>
     );
   }
@@ -94,51 +96,57 @@ class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
-    padding: 20,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#141414',
+  },
+  formContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#000',
+    borderRadius: 10,
   },
   title: {
-    color: '#E50914',
+    color: '#fff',
     fontSize: 24,
-    marginBottom: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
     textAlign: 'center',
   },
   input: {
-    borderColor: '#444',
-    borderWidth: 1,
+    borderColor: '#8B0000',
     borderRadius: 5,
-    marginBottom: 16,
     padding: 10,
+    marginBottom: 16,
     color: '#fff',
     backgroundColor: '#333',
   },
   btn: {
-    backgroundColor: '#E50914',
+    backgroundColor: '#e50914',
     textAlign: 'center',
-    padding: 15,
+    padding: 10,
     borderRadius: 5,
   },
   textBtn: {
     color: 'white',
-    fontSize: 16,
-  },
-  registerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  registerText: {
-    color: '#888',
-  },
-  registerLink: {
-    color: '#E50914',
-    marginLeft: 5,
-  },
-  errorText: {
-    color: 'red',
-    marginTop: 20,
+    fontWeight: 'bold',
     textAlign: 'center',
+  },
+  footer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#fff',
+  },
+  link: {
+    color: '#e50914',
+    fontWeight: 'bold',
+  },
+  error: {
+    color: '#e50914',
+    textAlign: 'center',
+    marginTop: 10,
   }
 });
 

@@ -18,7 +18,6 @@ class HomeMenu extends Component{
                 <Tab.Screen name="Home" component={homeScreen}  options={{headerShown: false}} />
                 <Tab.Screen name="New Post" component={NewPost}  options={{headerShown: false}} />
                 <Tab.Screen name="Profile" component={Profile}  options={{headerShown: false}} />
-
             </Tab.Navigator>
         )
     }
