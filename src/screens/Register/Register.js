@@ -93,10 +93,18 @@ class Register extends Component {
                     value={this.state.bio}
                     style={styles.input}
                 />
+
+                <TextInput
+                    onChangeText={(text) => this.setState({ imgPerfil: text })}
+                    placeholder='Imagen de perfil'
+                    keyboardType='default'
+                    value={this.state.imgPerfil}
+                    style={styles.input}
+                />
                     
                         <TouchableOpacity
                             style={styles.btn}
-                            onPress={() => this.onSubmit(this.state.name, this.state.email, this.state.password)}
+                            onPress={() => this.onSubmit(this.state.name, this.state.email, this.state.password,this.state.bio)}
                             
                         >
                             <Text style={styles.textBtn}>Registrarme</Text>
