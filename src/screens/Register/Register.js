@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { db, auth } from "../../config/config.js";
-import { launchImageLibrary } from 'react-native-image-picker';
+import Camara from '../../Componentes/Camara.js';
 
 class Register extends Component {
     constructor(props) {
