@@ -3,7 +3,7 @@ import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
-import Register from '../screens/Register/register';
+import Register from '../screens/Register/Register';
 import Login from '../screens/Login/login';
 import NavTab from './NavTab'
 
