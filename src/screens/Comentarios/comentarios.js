@@ -1,36 +1,47 @@
 import React, { Component } from 'react';
-import { FlatList, TextInput, View, TouchableOpacity, StyleSheet, Text, Image } from 'react-native';
+import { FlatList, TextInput, View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { db, auth } from "../../firebase/config";
-import firebase from "firebase"
+import firebase from "firebase";
 
-class comentarios extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            arrComentarios:[],
-            comentario:"",
-        };
-    }
+class Comentarios extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrComentarios: [],
+      comentario: "",
+    };
+  }
 
-    componentDidMount(){
-        console.log("se envian las props", this.props)
-        db.collection("posteos")
+  componentDidMount() {
+    console.log("se envian las props", this.props);
+    db.collection("posteos")
+      .doc(this.props.route.params.id)
+      .onSnapshot(doc => {
+        this.setState({
+          arrComentarios: doc.data().comentarios || []
+        });
+      });
+  }
 
-        .doc(this.props.rout.params.id)
-        .onsnapshot(doc=>{
-            this.setState({
-                arrComentarios:doc.data().comentarios
-            });
-        })
-    }
+  enviarComentario(comentario) {
+    const nuevoComentario = {
+      owner: auth.currentUser.email,
+      createdAt: Date.now(),
+      coment: comentario,
+    };
 
-
-    EnviarComentario(comentario){
-        const nuevoComentario={
-            owner:auth.currentUser.email,
-        }
-        
-    }
-
-
+    db.collection("posteos")
+      .doc(this.props.route.params.id)
+      .update({
+        comentarios: firebase.firestore.FieldValue.arrayUnion(nuevoComentario),
+      })
+      .then(() => {
+        this.setState({
+          comentario: "",
+        });
+      })
+      .catch(error => {
+        console.error("Error al enviar el comentario: ", error);
+      });
+  }
 }
