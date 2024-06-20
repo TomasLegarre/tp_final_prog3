@@ -8,8 +8,9 @@ export default class Camara extends Component {
     super(props);
     this.state = {
       dioPermiso: false,
-      urlTemp: ''
-    };
+      urlTemp: '',
+      
+    }
     this.metodosCamara = null;
   }
 
@@ -29,7 +30,7 @@ export default class Camara extends Component {
     fetch(this.state.urlTemp)
       .then((img) => img.blob())
       .then((imgProcesada) => {
-        const ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`)
+        var ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`)
         ref.put(imgProcesada)
           .then(() => {
             ref.getDownloadURL()
