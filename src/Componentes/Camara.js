@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Image } from 'react-native';
 import React, { Component } from 'react';
 import { Camera } from 'expo-camera';
 import { TouchableOpacity } from 'react-native-web';
-import { storage } from '../firebase/config'; // Asegúrate de importar storage correctamente
+import { storage } from '../config/config'; // Asegúrate de importar storage correctamente
 
 export default class Camara extends Component {
   constructor(props) {
