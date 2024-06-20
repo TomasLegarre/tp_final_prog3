@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Component } from 'react';
 import homeScreen from '../screens/HomeScreen/homeScreen';
-import newPost from '../screens/newPost/newPost'
-import Profile from '../screens/Profile/Profile'
-import {FontAwesome} from '@expo/vector-icons'
+import newPost from '../screens/newPost/newPost';
+import Profile from '../screens/Profile/Profile';
+import {FontAwesome} from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
