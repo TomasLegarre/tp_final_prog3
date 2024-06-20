@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { db, auth } from '../../config/config';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 class Profile extends Component {
     constructor(props) {
@@ -50,7 +50,6 @@ class Profile extends Component {
                     <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.username}</Text>
                     <Text style={styles.email}>{this.state.usuarioInfo[0]?.data.owner}</Text>
                     <Text style={styles.bio}>{this.state.usuarioInfo[0]?.data.bio}</Text>
-                    <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.fotoPerfil }</Text>
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
