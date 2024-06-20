@@ -21,8 +21,6 @@ class StackPrincipal extends Component {
     return (
       <NavigationContainer style={styles.container}>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={homeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Nuevo Posteo" component={nuevoPosteo} options={{ headerShown: false }} />
           {/* <Stack.Screen name="New Post" component={newPost} options={{ headerShown: false }} /> */}
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
