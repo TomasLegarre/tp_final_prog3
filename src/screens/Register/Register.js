@@ -46,13 +46,13 @@ class Register extends Component {
                             password: '',
                             loading: false
                         });
-                        this.props.navigation.navigate("login");
+                        this.props.navigation.navigate("Login");
                     })
             })
     }
 
     redirect = () => {
-        this.props.navigation.navigate('login');
+        this.props.navigation.navigate('Login');
     }
 
 

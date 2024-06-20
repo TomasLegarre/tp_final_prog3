@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { db, auth } from '../../config/config';
 import { TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Camara } from '../../Componentes/Camara';
+import Camara from '../../Componentes/Camara';
 
 class nuevoPosteo extends Component {
     constructor() {
