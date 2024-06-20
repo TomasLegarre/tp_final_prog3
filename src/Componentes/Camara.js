@@ -1,91 +1,140 @@
-import { Text, View, StyleSheet  } from 'react-native'
-import React, { Component } from 'react'
-import {Camera} from 'expo-camera'
-import { TouchableOpacity } from 'react-native-web'
-
-
+import { Text, View, StyleSheet, Image } from 'react-native';
+import React, { Component } from 'react';
+import { Camera } from 'expo-camera';
+import { TouchableOpacity } from 'react-native-web';
+import { storage } from '../firebase/config'; // Asegúrate de importar storage correctamente
 
 export default class Camara extends Component {
-    constructor(props){
-        super(props)
-        this.state={
-            dioPermiso:false,
-            urlTemp:''
-        }
-        this.metodosCamara=null
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      dioPermiso: false,
+      urlTemp: ''
+    };
+    this.metodosCamara = null;
+  }
 
-
-componentDidMount(){
+  componentDidMount() {
     Camera.requestCameraPermissionsAsync()
-    .then(()=>this.state({dioPermiso:true}))
-    .catch(()=> console.log("no hay permisos pa"))
-}
+      .then(() => this.setState({ dioPermiso: true }))
+      .catch(() => console.log("no hay permisos pa"));
+  }
 
-tomarFoto(){
+  tomarFoto() {
     this.metodosCamara.takePictureAsync()
-    .then((urlTemp)=> this.setState({urlTempo: urlTemp.uri}))
-    .catch((err)=> console.log(err))
-}
+      .then((urlTemp) => this.setState({ urlTemp: urlTemp.uri }))
+      .catch((err) => console.log(err));
+  }
 
+  guardarFoto() {
+    fetch(this.state.urlTemp)
+      .then((img) => img.blob())
+      .then((imgProcesada) => {
+        const ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`);
+        ref.put(imgProcesada)
+          .then(() => {
+            ref.getDownloadURL()
+              .then(url => this.props.actualizarimg(url));
+          });
+      })
+      .catch((err) => console.log(err));
+  }
 
-guardarFoto(){
-    fetch(this.state.urlTempo)
-        .then((img)=> img.blob())
-        .then((imgProcesada)=>{
-            const ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`)
-            ref.put(imgProcesada)
-            .then((url)=> {
-                ref.getDownloadURL()
-                .then(url => this.props.actualizarimg(url))
-            })
-        })
-        .catch((err)=> console.log(err))
-}
-
-descartarFoto(){
+  descartarFoto() {
     this.setState({
-        urlTemp:''
-    })
-}
+      urlTemp: ''
+    });
+  }
 
-
-
-render() {
+  render() {
     return (
-      <View style={styles.contendorCam}>
-        {
-          this.state.dioPermiso?
-            this.state.urlTemp === ''?
-              <Camera
-                type={Camera.Constants.Type.back}
-                style={styles.Camara}
-                ref={(camera) => this.metodosCamara = camera}
+      <View style={styles.contenedorCam}>
+        {this.state.dioPermiso ? (
+          this.state.urlTemp === '' ? (
+            <Camera
+              type={Camera.Constants.Type.back}
+              style={styles.camara}
+              ref={(camera) => (this.metodosCamara = camera)}
+            >
+              <TouchableOpacity
+                style={styles.botonTomarFoto}
+                onPress={() => this.tomarFoto()}
               >
-                <TouchableOpacity
-                  onPress={() => this.tomarFoto()}
-                >
-                  <Text>Tomar foto</Text>
-                </TouchableOpacity>
-              </Camera>
-            :
-            <>
-              <Image 
-              styles={styles.Imagen}
-              source={{ uri: this.state.urlTemp }} />
-
-              <TouchableOpacity onPress={()=>this.descartarFoto}>
-              <text> Rechazar foto</text>
+                <Text style={styles.textoBoton}>Tomar foto</Text>
               </TouchableOpacity>
-
-            <TouchableOpacity>
-              <text> aceptar  foto</text>
-            </TouchableOpacity>
-              </>
-          :
-            null
-        }
+            </Camera>
+          ) : (
+            <View style={styles.contenedorImagen}>
+              <Image
+                style={styles.imagen}
+                source={{ uri: this.state.urlTemp }}
+              />
+              <View style={styles.botonera}>
+                <TouchableOpacity
+                  style={styles.boton}
+                  onPress={() => this.descartarFoto()}
+                >
+                  <Text style={styles.textoBoton}>Rechazar foto</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.boton}
+                  onPress={() => this.guardarFoto()}
+                >
+                  <Text style={styles.textoBoton}>Aceptar foto</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )
+        ) : null}
       </View>
-    )
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  contenedorCam: {
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  camara: {
+    width: '100%',
+    height: '80%',
+    justifyContent: 'flex-end',
+  },
+  botonTomarFoto: {
+    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  textoBoton: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  contenedorImagen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imagen: {
+    width: '80%',
+    height: '70%',
+    borderRadius: 10,
+  },
+  botonera: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    width: '80%',
+  },
+  boton: {
+    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '40%',
+  },
+});
