@@ -2,8 +2,8 @@ import react, { Component } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
 import { db, auth } from '../../config/config';
-// import Post from '../../components/Post';
-// import PostDos from '../../components/postDos'
+import Posteo from '../../Componentes/Posteo';
+
 
 class homeScreen extends Component {
     constructor(){
@@ -35,12 +35,12 @@ class homeScreen extends Component {
             :
                 <View style={styles.generalContainer}>
                 {console.log('estoy en homeScreen')}
-                <Text style={styles.title}>Coffeegram</Text>
+                <Text style={styles.title}>NetflixGram</Text>
 
                 <FlatList
                     data={this.state.postList}
                     keyExtractor={posteo => posteo.id.toString()}
-                    renderItem={({item})=><PostDos propsNav={this.props} postInfo={item} style={styles.element} />}
+                    renderItem={({item})=><Posteo propsNav={this.props} postInfo={item} style={styles.element} />}
                     // thispropsnavigation
                 />
             

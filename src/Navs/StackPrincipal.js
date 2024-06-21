@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from '../screens/Register/Register';
 import Login from '../screens/Login/login';
 import NavTab from './NavTab';
-// import newPost from '../screens/newPost/newPost';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -20,7 +20,6 @@ class StackPrincipal extends Component {
     return (
       <NavigationContainer style={styles.container}>
         <Stack.Navigator>
-          {/* <Stack.Screen name="New Post" component={newPost} options={{ headerShown: false }} /> */}
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="navtab" component={NavTab} options={{ headerShown: false }} />
