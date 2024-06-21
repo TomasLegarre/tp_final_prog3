@@ -38,10 +38,10 @@ class homeScreen extends Component {
                 <Text style={styles.title}>NetflixGram</Text>
 
                 <FlatList
-                    data={this.state.postList}
+                    data={this.state.postList} 
                     keyExtractor={posteo => posteo.id.toString()}
-                    renderItem={({item})=><Posteo propsNav={this.props} postInfo={item} style={styles.element} />}
-                    // thispropsnavigation
+                    renderItem={({item})=> <Posteo postInfo={item} navigation={this.props.navigation} style={styles.element} />}
+                    // thispropsnavigation 
                 />
             
                 </View>
