@@ -55,24 +55,25 @@ class Posteo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.foto}
-          source={{ uri: this.props.postInfo.data.imageURL }} 
-          resizeMode='cover'
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.foto}
+            source={{ uri: this.props.postInfo.data.imageURL }} 
+            resizeMode='contain'
+          />
+        </View>
 
         <Text style={styles.text}>{this.props.postInfo.data.post}</Text>
         <Text style={styles.textLike}>{this.state.likes.length} likes</Text>
 
         {this.state.likes.includes(auth.currentUser.email) ? (
-                <TouchableOpacity style={styles.button} onPress={() => this.desLike()}>
-                  <Text style={styles.buttonText}>Sacar like</Text>
-                </TouchableOpacity>
-                
-              ) : (
-                <TouchableOpacity style={styles.button} onPress={() => this.Like()}>
-                  <Text style={styles.buttonText}>Dar like</Text>
-                </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => this.desLike()}>
+            <Text style={styles.buttonText}>Sacar like</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={() => this.Like()}>
+            <Text style={styles.buttonText}>Dar like</Text>
+          </TouchableOpacity>
         )}
 
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { mail: this.props.postInfo.data.owner })}>
@@ -81,7 +82,7 @@ class Posteo extends Component {
 
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Comentarios', { info: this.props.postInfo })}>
           <Text style={styles.buttonText}>Cantidad de comentarios: {this.state.comentarios.length}</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
 
         <FlatList
           data={this.state.comentarios.slice(0, 4)} 
@@ -106,11 +107,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'black', 
     padding: 20,
   },
-  foto: {
-    height: 300,
-    width: '30%',
-    borderRadius: 8,
+  imageContainer: {
+    width: '100%',
+    aspectRatio: 1, // Ajusta el contenedor de la imagen para mantener la proporción
     marginBottom: 20,
+  },
+  foto: {
+    flex: 1,
+    width: '100%',
+    borderRadius: 8,
   },
   text: {
     color: '#FFEBEE',
