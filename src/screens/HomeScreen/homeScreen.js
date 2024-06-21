@@ -3,7 +3,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
 import { db, auth } from '../../config/config';
 // import Post from '../../components/Post';
-// import PostDos from '../../components/postDos'
+import PostDos from '../../components/postDos'
 
 class homeScreen extends Component {
     constructor(){
