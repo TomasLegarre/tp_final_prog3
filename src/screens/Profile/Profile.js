@@ -50,6 +50,7 @@ class Profile extends Component {
                     <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.username}</Text>
                     <Text style={styles.email}>{this.state.usuarioInfo[0]?.data.owner}</Text>
                     <Text style={styles.bio}>{this.state.usuarioInfo[0]?.data.bio}</Text>
+                    
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>

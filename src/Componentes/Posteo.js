@@ -77,7 +77,7 @@ class Posteo extends Component {
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { mail: this.props.postInfo.data.owner })}>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { userEmail: this.props.postInfo.data.owner })}>
             <Text style={styles.buttonText}>Usuario: {this.props.postInfo.data.owner}</Text>
           </TouchableOpacity>
         </View>
