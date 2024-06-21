@@ -1,105 +1,104 @@
-import react, { Component } from 'react';
+import React, { Component } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
+import { TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { db, auth } from '../../config/config';
 import Posteo from '../../Componentes/Posteo';
 
-
-class homeScreen extends Component {
-    constructor(){
+class HomeScreen extends Component {
+    constructor() {
         super()
-        this.state={
-            postList:[],
+        this.state = {
+            postList: [],
             loader: true
         }
     }
-    componentDidMount(){
+
+    componentDidMount() {
         db.collection('posts').onSnapshot(
             docs => {
                 let postsShown = [];
 
-                docs.forEach(posteo=>{
+                docs.forEach(posteo => {
                     postsShown.push({
                         id: posteo.id,
-                        data: posteo.data()})
+                        data: posteo.data()
+                    })
                 })
-            this.setState({ postList:postsShown, loader: false })
+                this.setState({ postList: postsShown, loader: false })
             })
     }
 
-    render(){
-        console.log('current user;',auth.currentUser)
-        return(
-          <View>
-            { this.state.loader === true ? <ActivityIndicator  size='large' color='gray'/>
-            :
-                <View style={styles.generalContainer}>
-                {console.log('estoy en homeScreen')}
-                <Text style={styles.title}>NetflixGram</Text>
+    render() {
+        console.log('current user:', auth.currentUser)
+        return (
+            <View style={{ flex: 1 }}>
+                {this.state.loader === true ? <ActivityIndicator size='large' color='gray' />
+                    :
+                    <View style={styles.generalContainer}>
+                        {console.log('estoy en homeScreen')}
+                        <Text style={styles.title}>NetflixGram</Text>
 
-                <FlatList
-                    data={this.state.postList} 
-                    keyExtractor={posteo => posteo.id.toString()}
-                    renderItem={({item})=> <Posteo postInfo={item} navigation={this.props.navigation} style={styles.element} />}
-                    // thispropsnavigation 
-                />
-            
-                </View>
-            }
-          </View>
+                        <FlatList
+                            data={this.state.postList}
+                            keyExtractor={posteo => posteo.id.toString()}
+                            renderItem={({ item }) => <Posteo postInfo={item} navigation={this.props.navigation} style={styles.element} />}
+                            style={styles.flatList}
+                        />
+                    </View>
+                }
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    generalContainer:{
+    generalContainer: {
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        flexShrink: '0'
+        backgroundColor: '#141414', // Fondo negro
+        padding: 10,
     },
-    title:{
-         color: '#443742',
-         fontWeight: 'bold',
-         fontSize: 40,
-    },
-    // flatList:{
-    // },
-    element:{
-        display:'flex',
-        flexDirection:'column',
-        margin: 30,
-        padding: 30,
-        justifyContent: 'space-around',
-    },
-    input:{
-        height:20,
-        paddingVertical:15,
-        paddingHorizontal: 10,
-        borderWidth:1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        borderRadius: 6,
-        marginVertical:10,
-    },
-    button:{
-        backgroundColor:'#28a745',
-        paddingHorizontal: 10,
-        paddingVertical: 6,
+    title: {
+        color: '#E50914', // Rojo Netflix
+        fontWeight: 'bold',
+        fontSize: 40,
+        marginBottom: 20,
         textAlign: 'center',
-        borderRadius:4,
-        borderWidth:1,
-        borderStyle: 'solid',
-        borderColor: '#28a745'
     },
-    textButton:{
-        color: '#fff'
+    flatList: {
+        flex: 1,
+        width: '100%',
+    },
+    element: {
+        backgroundColor: '#1c1c1c', // Fondo oscuro para cada post
+        marginVertical: 10,
+        marginHorizontal: 20,
+        padding: 20,
+        borderRadius: 8,
+    },
+    input: {
+        height: 40,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderWidth: 1,
+        borderColor: '#E50914',
+        borderRadius: 6,
+        marginVertical: 10,
+        color: '#fff',
+    },
+    button: {
+        backgroundColor: '#E50914',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        textAlign: 'center',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#E50914',
+        marginVertical: 10,
+    },
+    textButton: {
+        color: '#fff',
+        fontWeight: 'bold',
     }
-
 })
 
-
-export default homeScreen;
+export default HomeScreen;
