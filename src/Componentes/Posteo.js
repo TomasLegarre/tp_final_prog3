@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
 import { auth, db } from '../config/config';
 import firebase from 'firebase';
 
@@ -53,34 +53,46 @@ class Posteo extends Component {
   }
 
   render() {
-    console.log(this.props); // veo que me trae props asi pongo bien los nombres de cada cosa (img, descrpcion, etc)
     return (
       <View style={styles.container}>
         <Image
           style={styles.foto}
-          source={{ uri: this.props.postInfo.data.imageURL }} // aca me parece que va ImageUrl --> como esta en firebase
+          source={{ uri: this.props.postInfo.data.imageURL }} 
           resizeMode='cover'
         />
 
         <Text style={styles.text}>{this.props.postInfo.data.post}</Text>
+        <Text style={styles.textLike}>{this.state.likes.length} likes</Text>
 
-        <Text style={styles.textLike}> {this.state.likes !== undefined ? this.state.likes.length : 0} likes </Text>
+        {this.state.likes.includes(auth.currentUser.email) ? (
+                <TouchableOpacity style={styles.button} onPress={() => this.desLike()}>
+                  <Text style={styles.buttonText}>Sacar like</Text>
+                </TouchableOpacity>
+                
+              ) : (
+                <TouchableOpacity style={styles.button} onPress={() => this.Like()}>
+                  <Text style={styles.buttonText}>Dar like</Text>
+                </TouchableOpacity>
+        )}
 
-        <View style={styles.buttonContainer}>
-          {this.state.likes.includes(auth.currentUser.email) ? (
-            <TouchableOpacity style={styles.button} onPress={() => this.desLike()}>
-              <Text style={styles.buttonText}>Sacar like</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.button} onPress={() => this.Like()}>
-              <Text style={styles.buttonText}>Dar like</Text>
-            </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { mail: this.props.postInfo.data.owner })}>
+          <Text style={styles.buttonText}>Nombre de usuario: {this.props.postInfo.data.owner}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Comentarios', { info: this.props.postInfo })}>
+          <Text style={styles.buttonText}>Cantidad de comentarios: {this.state.comentarios.length}</Text>
+        </TouchableOpacity> 
+
+        <FlatList
+          data={this.state.comentarios.slice(0, 4)} 
+          keyExtractor={(item, index) => `${index}_${item.fecha}`} 
+          renderItem={({ item }) => (
+            <View style={styles.comentarioContainer}>
+              <Text style={styles.comentarioUsuario}>{item.usuario}</Text>
+              <Text style={styles.comentarioTexto}>{item.comentario}</Text>
+            </View>
           )}
-
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { userEmail: this.props.postInfo.data.owner })}>
-            <Text style={styles.buttonText}>Usuario: {this.props.postInfo.data.owner}</Text>
-          </TouchableOpacity>
-        </View>
+        />
       </View>
     );
   }
@@ -91,53 +103,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#141414', // Fondo negro
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: 'black', 
+    padding: 20,
   },
   foto: {
     height: 300,
-    width: '30%', // Reduce el ancho de la imagen
+    width: '30%',
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   text: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginBottom: 5,
-    textAlign: 'center',
+    color: '#FFEBEE',
+    fontSize: 18,
+    marginBottom: 10,
   },
   textLike: {
-    color: '#B0B0B0',
-    fontSize: 14,
+    color: '#FFEBEE',
+    fontSize: 18,
     marginBottom: 10,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    width: '80%', // Ajustar el ancho del contenedor de botones al ancho de la foto
   },
   button: {
-    backgroundColor: '#E50914',
-    paddingVertical: 10, // Ajustar padding vertical
+    backgroundColor: '#D32F2F',
+    padding: 10,
     borderRadius: 8,
     marginVertical: 5,
-    width: '100%', // Hacer que el botón ocupe todo el ancho del contenedor de botones
+    width: '80%',
+    alignItems: 'center',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#FFEBEE',
     fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 14, // Ajustar el tamaño del texto
   },
   comentarioContainer: {
-    backgroundColor: '#333333', 
+    backgroundColor: '#333', 
     padding: 8,
     marginVertical: 4,
     borderRadius: 8,
+    width: '100%',
   },
   comentarioUsuario: {
-    color: '#E50914',
+    color: '#D32F2F',
     fontWeight: 'bold',
   },
   comentarioTexto: {
