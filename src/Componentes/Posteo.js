@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react
 import { auth, db } from '../config/config';
 import firebase from 'firebase';
 
-
 class Posteo extends Component {
   constructor() {
     super();
@@ -54,52 +53,37 @@ class Posteo extends Component {
   }
 
   render() {
-    console.log(this.props) // veo que me trae props asi pongo bien los nombres de cada cosa (img, descrpcion, etc)
     return (
       <View style={styles.container}>
         <Image
           style={styles.foto}
-          source={{ uri: this.props.postInfo.data.imageURL }} // aca me parece que va ImageUrl --> como esta en firebase
+          source={{ uri: this.props.postInfo.data.imageURL }} 
           resizeMode='cover'
         />
 
         <Text style={styles.text}>{this.props.postInfo.data.post}</Text>
 
-        <Text style={styles.textLike}> {this.state.likes !== undefined ? this.state.likes.length : 0} likes </Text>
-
-
-        {/* SACO O PONGO LIKES DEPENDEINDO SI INCLUYE O NO EL LIKE DEL USUARIO */}
+        <Text style={styles.textLike}>{this.state.likes.length} likes</Text>
 
         {this.state.likes.includes(auth.currentUser.email) ? (
-
           <TouchableOpacity style={styles.button} onPress={() => this.desLike()}>
             <Text style={styles.buttonText}>Sacar like</Text>
           </TouchableOpacity>
-
         ) : (
-
           <TouchableOpacity style={styles.button} onPress={() => this.Like()}>
             <Text style={styles.buttonText}>Dar like</Text>
           </TouchableOpacity>
         )}
 
-        {/* ESTO TE REDIREIGE AL USUARIO. si tocas profile te manda a profile. propio o ajeno */}
-
-        <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Profile', {mail: this.props.postInfo.data.owner})}>
-          <Text style={styles.buttonText}>Nombre de usuario : {this.props.postInfo.data.owner}</Text>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { mail: this.props.postInfo.data.owner })}>
+          <Text style={styles.buttonText}>Nombre de usuario: {this.props.postInfo.data.owner}</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate('Comments', { info: this.props.postInfo })}
-        >
-          <Text style={styles.buttonText}>
-            Cantidad de comentarios: {this.state.comentarios.length}
-          </Text>
-        </TouchableOpacity> */}
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Comentarios', { info: this.props.postInfo })}>
+          <Text style={styles.buttonText}>Cantidad de comentarios: {this.state.comentarios.length}</Text>
+        </TouchableOpacity> 
 
-      
-        {/* <FlatList
+        <FlatList
           data={this.state.comentarios.slice(0, 4)} 
           keyExtractor={(item, index) => `${index}_${item.fecha}`} 
           renderItem={({ item }) => (
@@ -108,13 +92,11 @@ class Posteo extends Component {
               <Text style={styles.comentarioTexto}>{item.comentario}</Text>
             </View>
           )}
-        /> */}
-
+        />
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -122,11 +104,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black', 
+    padding: 20,
   },
   foto: {
     height: 300,
     width: '100%',
     borderRadius: 8,
+    marginBottom: 20,
   },
   text: {
     color: '#FFEBEE',
@@ -143,6 +127,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     marginVertical: 5,
+    width: '80%',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#FFEBEE',
@@ -153,6 +139,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 4,
     borderRadius: 8,
+    width: '100%',
   },
   comentarioUsuario: {
     color: '#D32F2F',

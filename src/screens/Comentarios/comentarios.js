@@ -13,15 +13,17 @@ class Comentarios extends Component {
   }
 
   componentDidMount() {
-    console.log("se envian las props", this.props);
-    db.collection("posteos")
-      .doc(this.props.route.params.id)
+    const { info } = this.props.route.params;
+  
+    db.collection("posts")
+      .doc(info.id)
       .onSnapshot(doc => {
         this.setState({
-          arrComentarios: doc.data().comentarios || []
+          arrComentarios: doc.exists ? doc.data().comentarios || [] : []
         });
       });
   }
+  
 
   enviarComentario(comentario) {
     const nuevoComentario = {
@@ -30,8 +32,10 @@ class Comentarios extends Component {
       coment: comentario,
     };
 
-    db.collection("posteos")
-      .doc(this.props.route.params.id)
+    const { info } = this.props.route.params;
+
+    db.collection("posts")
+      .doc(info.id)
       .update({
         comentarios: firebase.firestore.FieldValue.arrayUnion(nuevoComentario),
       })
@@ -48,26 +52,24 @@ class Comentarios extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.headerText}>Comentarios</Text>
-        {
-          this.state.arrComentarios.length === 0 ? (
-            <Text style={styles.noCommentsText}>No hay comentarios en esta publicación</Text>
-          ) : (
-            <FlatList 
-              data={this.state.arrComentarios}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.commentBox}>
-                  <Text style={styles.commentText}><Text style={styles.commentOwner}>{item.owner}</Text>: {item.coment}</Text>
-                </View>
-              )}
-            />
-          )
-        }
+        <Text style={styles.header}>Comentarios</Text>
+        {this.state.arrComentarios.length === 0 ? (
+          <Text style={styles.noComments}>No hay comentarios en esta publicación</Text>
+        ) : (
+          <FlatList 
+            data={this.state.arrComentarios}
+            keyExtractor={(item, index) => `${index}_${item.createdAt}`} 
+            renderItem={({ item }) => (
+              <View style={styles.comment}>
+                <Text style={styles.commentUser}>{item.owner}:</Text>
+                <Text style={styles.commentText}>{item.coment}</Text>
+              </View>
+            )}
+          />
+        )}
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Escribe tu comentario"
-            placeholderTextColor="#999"
             style={styles.input}
             keyboardType='default'
             onChangeText={text => this.setState({ comentario: text })}
@@ -85,52 +87,53 @@ class Comentarios extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#141414',
+    backgroundColor: 'black',
     padding: 20,
   },
-  headerText: {
-    color: '#fff',
+  header: {
+    color: '#FFEBEE',
     fontSize: 24,
     marginBottom: 20,
     textAlign: 'center',
   },
-  noCommentsText: {
-    color: '#999',
+  noComments: {
+    color: '#FFEBEE',
     fontSize: 18,
     textAlign: 'center',
   },
-  commentBox: {
-    backgroundColor: '#282828',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
+  comment: {
+    backgroundColor: '#333',
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 5,
   },
-  commentText: {
-    color: '#fff',
-  },
-  commentOwner: {
+  commentUser: {
+    color: '#D32F2F',
     fontWeight: 'bold',
   },
+  commentText: {
+    color: '#FFEBEE',
+  },
   inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 20,
   },
   input: {
-    backgroundColor: '#333',
-    color: '#fff',
-    borderRadius: 5,
+    flex: 1,
+    backgroundColor: '#FFF',
     padding: 10,
-    marginBottom: 10,
+    borderRadius: 8,
+    marginRight: 10,
   },
   button: {
-    backgroundColor: '#e50914',
-    paddingVertical: 15,
-    borderRadius: 5,
-    alignItems: 'center',
+    backgroundColor: '#D32F2F',
+    padding: 10,
+    borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFEBEE',
     fontWeight: 'bold',
-    fontSize: 16,
   },
 });
 
