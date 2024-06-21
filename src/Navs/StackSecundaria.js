@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
 import homeScreen from '../screens/HomeScreen/homeScreen';
 import Profile from '../screens/Profile/Profile'; 
+import Comentarios from '../screens/Comentarios/comentarios';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ class StackSecundaria extends Component {
             <Stack.Navigator>
               <Stack.Screen name='HomeScreen' component={homeScreen} options={{headerShown :false}}  />
               <Stack.Screen name='ProfileAmigo' component={Profile} options={{headerShown :false}}  />
+              <Stack.Screen name='Comentarios' component={Comentarios} options={{headerShown :false}}  />
             </Stack.Navigator>
     
         )
