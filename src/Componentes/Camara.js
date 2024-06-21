@@ -1,16 +1,16 @@
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
-import { Camera } from 'expo-camera';
-import { TouchableOpacity } from 'react-native-web';
-import { storage } from '../config/config'; // Asegúrate de importar storage correctamente
+import { Camera } from 'expo-camera/legacy';
+import { storage } from '../config/config'; 
 
 export default class Camara extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dioPermiso: false,
-      urlTemp: ''
-    };
+      urlTemp: '',
+      
+    }
     this.metodosCamara = null;
   }
 
@@ -30,7 +30,7 @@ export default class Camara extends Component {
     fetch(this.state.urlTemp)
       .then((img) => img.blob())
       .then((imgProcesada) => {
-        const ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`);
+        let ref = storage.ref(`imagenesPost/${Date.now()}.jpeg`)
         ref.put(imgProcesada)
           .then(() => {
             ref.getDownloadURL()
@@ -52,9 +52,9 @@ export default class Camara extends Component {
         {this.state.dioPermiso ? (
           this.state.urlTemp === '' ? (
             <Camera
-              type={Camera.Constants.Type.back}
+                type={Camera.Constants.Type.back}
               style={styles.camara}
-              ref={(camera) => (this.metodosCamara = camera)}
+              ref={(metodos) => this.metodosCamara = metodos}
             >
               <TouchableOpacity
                 style={styles.botonTomarFoto}

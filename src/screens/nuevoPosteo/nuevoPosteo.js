@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { db, auth } from '../../config/config';
 import { TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Camara } from '../../Componentes/Camara';
+import Camara from '../../Componentes/Camara';
 
-class newPost extends Component {
+class nuevoPosteo extends Component {
     constructor() {
         super();
         this.state = {
@@ -15,7 +15,7 @@ class newPost extends Component {
         console.log(this.state);
     }
 
-    crearPost(owner, post, imageURL, createdAt) {
+    crearPosteo(owner, post, imageURL, createdAt) {
         if (post !== '') {
             db.collection('posts').add({
                 owner: owner,
@@ -61,7 +61,7 @@ class newPost extends Component {
                         </View>
                     )}
                 </View>
-                <TouchableOpacity style={styles.button} onPress={() => this.crearPost(auth.currentUser.email, this.state.post, this.state.imageURL, Date.now())}>
+                <TouchableOpacity style={styles.button} onPress={() => this.crearPosteo(auth.currentUser.email, this.state.post, this.state.imageURL, Date.now())}>
                     <Text style={styles.textButton}>Publicar</Text>
                 </TouchableOpacity>
             </View>
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default newPost;
+export default nuevoPosteo;
