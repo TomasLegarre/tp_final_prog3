@@ -53,6 +53,7 @@ class Posteo extends Component {
   }
 
   render() {
+    console.log(this.props.postInfo.data.owner)
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
@@ -76,7 +77,7 @@ class Posteo extends Component {
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', { mail: this.props.postInfo.data.owner })}>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('NoProfile', { profileMail: this.props.postInfo.data.owner })}>
           <Text style={styles.buttonText}>Nombre de usuario: {this.props.postInfo.data.owner}</Text>
         </TouchableOpacity>
 
@@ -108,8 +109,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    width: '100%',
-    aspectRatio: 1, // Ajusta el contenedor de la imagen para mantener la proporción
+    width: '30%',
+    aspectRatio: 1, 
     marginBottom: 20,
   },
   foto: {
