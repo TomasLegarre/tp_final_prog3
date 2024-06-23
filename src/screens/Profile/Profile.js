@@ -65,23 +65,21 @@ class Profile extends Component {
         this.getData();
     }
 
-
-    borrarUser(id){
-        const borrarUsuario= auth.currentUser;
+    borrarUser(id) {
+        const borrarUsuario = auth.currentUser;
         db.collection("users").doc(id).delete()
-        .then(() => {
-            borrarUsuario.delete()
-             })
-            .then(()=>{
-                console.log("alpiste usuario borrado")
+            .then(() => {
+                return borrarUsuario.delete();
+            })
+            .then(() => {
+                console.log("alpiste usuario borrado");
                 this.props.navigation.navigate("Register");
             })
-            .catch((error)=>{
-                console.log("alpisten't no se pudo borrar")
+            .catch((error) => {
+                console.log("alpisten't no se pudo borrar", error);
             });
-
-
     }
+    
     render() {
         return (
             <View style={styles.container}>
@@ -93,11 +91,14 @@ class Profile extends Component {
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.logoutButton} onPress={() => (this.borrarUser())(this.props.navigation.navigate("Register"))}>
-                    <Text style={styles.logoutButton}>Borrar el usuario </Text>
+    
+                    <TouchableOpacity
+                        style={styles.logoutButton}
+                        onPress={() => this.borrarUser(this.state.usuarioInfo[0]?.id)}
+                    >
+                        <Text style={styles.logoutText}>Borrar el usuario</Text>
                     </TouchableOpacity>
-
+    
                     <Text style={styles.texto}>Posteos Realizados: {this.state.userPosts.length}</Text>
                 
                     {this.state.userPosts.length === 0 ? (
@@ -119,8 +120,7 @@ class Profile extends Component {
             </View>
         );
     }
-}
-
+}    
 const styles = StyleSheet.create({
     container: {
         flex: 1,
