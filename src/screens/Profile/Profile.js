@@ -23,6 +23,7 @@ class Profile extends Component {
                 let usuarioInfo = [];
                 docs.forEach((doc) => {
                     usuarioInfo.push({
+                        id: doc.id,
                         data: doc.data(),
                     });
                 });
@@ -81,20 +82,12 @@ class Profile extends Component {
             <View style={styles.container}>
                 <View style={styles.profileContainer}>
                     <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.username}</Text>
-                    <Text style={styles.email}>{this.state.usuarioInfo[0]?.data.owner}</Text>
                     <Text style={styles.bio}>{this.state.usuarioInfo[0]?.data.bio}</Text>
                     
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
-    
-                    <TouchableOpacity
-                        style={styles.logoutButton}
-                        onPress={() => this.borrarUser(this.state.usuarioInfo[0]?.id)}
-                    >
-                        <Text style={styles.logoutText}>Borrar el usuario</Text>
-                    </TouchableOpacity>
-    
+
                     <Text style={styles.texto}>Posteos Realizados: {this.state.userPosts.length}</Text>
                 
                     {this.state.userPosts.length === 0 ? (
@@ -112,38 +105,43 @@ class Profile extends Component {
                         )}
                     />
                     )}
+
+                    <TouchableOpacity
+                        style={styles.deleteButton}
+                        onPress={() => this.borrarUser(this.state.usuarioInfo[0]?.id)}
+                    >
+                        <Text style={styles.logoutText}>Borrar el usuario</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
     }
 }    
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#141414', 
     },
     profileContainer: {
-        width: '80%',
+        width: '90%',
         padding: 20,
         backgroundColor: '#000',
         borderRadius: 10,
         alignItems: 'center',
+        marginTop: 20,
     },
     username: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
         color: '#fff', 
         marginBottom: 10,
-    },
-    email: {
-        fontSize: 18,
-        color: '#fff',
-        marginBottom: 10,
+        textAlign: 'center',
     },
     bio: {
-        fontSize: 16,
+        fontSize: 18,
         color: '#fff', 
         marginBottom: 20,
         textAlign: 'center',
@@ -153,6 +151,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#e50914', 
         borderRadius: 5,
         alignItems: 'center',
+        marginVertical: 10,
+        width: '100%',
+    },
+    deleteButton: {
+        padding: 10,
+        backgroundColor: '#e50914', 
+        borderRadius: 5,
+        alignItems: 'center',
+        marginVertical: 20,
+        width: '100%',
     },
     logoutText: {
         color: 'white',
@@ -163,14 +171,17 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         marginVertical: 10,
+        textAlign: 'center',
     },
     textoFino: {
         color: '#fff',
         fontSize: 16,
         marginVertical: 10,
+        textAlign: 'center',
     },
     posts: {
         marginVertical: 10,
+        width: '100%',
     },
 });
 
