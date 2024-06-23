@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { db, auth } from '../../config/config';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import Posteo from '../../Componentes/Posteo';
 
 class Profile extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class Profile extends Component {
 
         this.state = {
             usuarioInfo: [],
-            usuarioPost: [],
+            userPosts: [],
             usuarioEmail: '',
             password: '',
             loader: true
@@ -34,6 +35,23 @@ class Profile extends Component {
             });
     }
 
+    getPost(user) {
+        db.collection("posts").where("owner", "==", user)
+            .onSnapshot((docs) => {
+                let getUserPost = [];
+                docs.forEach((doc) => {
+                    getUserPost.push({
+                        id: doc.id,
+                        data: doc.data()
+                    });
+                });
+                this.setState({
+                    userPosts: getUserPost,
+                    loader: false
+                });
+            });
+    }
+
     logout() {
         auth.signOut();
         this.props.navigation.navigate('Login');
@@ -47,6 +65,23 @@ class Profile extends Component {
         this.getData();
     }
 
+
+    borrarUser(id){
+        const borrarUsuario= auth.currentUser;
+        db.collection("users").doc(id).delete()
+        .then(() => {
+            borrarUsuario.delete()
+             })
+            .then(()=>{
+                console.log("alpiste usuario borrado")
+                this.props.navigation.navigate("Register");
+            })
+            .catch((error)=>{
+                console.log("alpisten't no se pudo borrar")
+            });
+
+
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -59,6 +94,27 @@ class Profile extends Component {
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
 
+                    <TouchableOpacity style={styles.logoutButton} onPress={() => (this.borrarUser())(this.props.navigation.navigate("Register"))}>
+                    <Text style={styles.logoutButton}>Borrar el usuario </Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.texto}>Posteos Realizados: {this.state.userPosts.length}</Text>
+                
+                    {this.state.userPosts.length === 0 ? (
+                    <Text style={styles.textoFino}>Ups! No hiciste posteos</Text>
+                    ) : (
+                    <FlatList
+                        data={this.state.userPosts}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                        <Posteo
+                            propsNav={this.props}
+                            postInfo={item}
+                            style={styles.posts}
+                        />
+                        )}
+                    />
+                    )}
                 </View>
             </View>
         );
@@ -70,35 +126,35 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#141414', // Netflix background color
+        backgroundColor: '#141414', 
     },
     profileContainer: {
         width: '80%',
         padding: 20,
-        backgroundColor: '#000', // Black color for the container
+        backgroundColor: '#000',
         borderRadius: 10,
         alignItems: 'center',
     },
     username: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#fff', // White text
+        color: '#fff', 
         marginBottom: 10,
     },
     email: {
         fontSize: 18,
-        color: '#fff', // White text
+        color: '#fff',
         marginBottom: 10,
     },
     bio: {
         fontSize: 16,
-        color: '#fff', // White text
+        color: '#fff', 
         marginBottom: 20,
         textAlign: 'center',
     },
     logoutButton: {
         padding: 10,
-        backgroundColor: '#e50914', // Netflix red color
+        backgroundColor: '#e50914', 
         borderRadius: 5,
         alignItems: 'center',
     },
@@ -106,6 +162,19 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    texto: {
+        color: '#fff',
+        fontSize: 18,
+        marginVertical: 10,
+    },
+    textoFino: {
+        color: '#fff',
+        fontSize: 16,
+        marginVertical: 10,
+    },
+    posts: {
+        marginVertical: 10,
     },
 });
 
