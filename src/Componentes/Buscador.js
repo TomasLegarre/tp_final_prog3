@@ -45,8 +45,7 @@ class Buscador extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>Netflixgram</Text>
-                {/* <Image style={styles.img} source={require('../../assets/icon.png')} /> */}
+                <Text style={styles.title}>NetflixGram</Text>
                 <Picker
                     selectedValue={this.state.filtered}
                     onValueChange={(itemValue) => this.setState({ filtered: itemValue })}

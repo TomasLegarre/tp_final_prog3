@@ -54,7 +54,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
     generalContainer: {
         flex: 1,
-        backgroundColor: '#141414', // Fondo negro
+        backgroundColor: '#141414', 
         padding: 10,
     },
     title: {

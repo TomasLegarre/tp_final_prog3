@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#141414', 
     },
     profileContainer: {
+        flex: 1,
         width: '90%',
         padding: 20,
         backgroundColor: '#000',

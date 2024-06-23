@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList, ScrollView } from 'react-native';
+import { TextInput, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { db, auth } from '../../config/config';
 import Posteo from '../../Componentes/Posteo';
 
@@ -66,35 +66,42 @@ class NoProfile extends Component {
     const userExists = userInfo.length > 0;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-          
-        {userExists ? (
-          <>
-            <Text style={styles.texto}>{userInfo[0].data.name}</Text>
-            <Text style={styles.texto}>{userInfo[0].data.owner}</Text>
-            <Text style={styles.bio}>{userInfo[0].data.bio}</Text>
-          </>
-        ) : (
-          <Text style={styles.noUserData}>No hay información del usuario</Text>
-        )}
-        
-        <Text style={styles.texto}>Posts: {userPosts.length}</Text>
-        
-        {userPosts.length === 0 ? (
-          <Text style={styles.noPosts}>No hay posteos</Text>
-        ) : (
-          <FlatList
-            data={userPosts}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Posteo postInfo={item} navigation={this.props.navigation} style={styles.element} />
+      <View style={styles.container}>
+            {userExists ? (
+              <>
+                <Text style={styles.texto}>{userInfo[0].data.name}</Text>
+                <Text style={styles.texto}>{userInfo[0].data.owner}</Text>
+                <Text style={styles.bio}>{userInfo[0].data.bio}</Text>
+              </>
+            ) : (
+              <Text style={styles.noUserData}>No hay información del usuario</Text>
             )}
-          />
-        )}
-        <TouchableOpacity onPress={() => this.backToHome()} style={styles.button}>
-          <Text style={styles.buttonText}>Volver a home</Text>
-        </TouchableOpacity>
-      </ScrollView>
+              
+
+            <Text style={styles.texto}>Posts: {userPosts.length}</Text>
+            
+            {userPosts.length === 0 ? (
+              <Text style={styles.noPosts}>No hay posteos</Text>
+            ) : (
+            <View style={styles.profileContainer}> 
+              <FlatList
+                data={userPosts}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <Posteo 
+                    postInfo={item} 
+                    navigation={this.props.navigation} 
+                    style={styles.element} 
+                  />
+                  )}
+              />
+            </View>
+
+            )}
+            <TouchableOpacity onPress={() => this.backToHome()} style={styles.button}>
+              <Text style={styles.buttonText}>Volver a home</Text>
+            </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -102,14 +109,25 @@ class NoProfile extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
     padding: 10,
-    backgroundColor: '#000', // Fondo negro
+    backgroundColor: '#000', 
   },
+  profileContainer: {
+    flex: 1,
+    width: '90%',
+    padding: 20,
+    backgroundColor: '#000',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 20,
+},
   pageTitle: {
     color: 'white',
     fontSize: 40,
     padding: 15,
-    backgroundColor: '#E50914', // Rojo de Netflix
+    backgroundColor: '#E50914', 
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -126,12 +144,12 @@ const styles = StyleSheet.create({
   },
   texto: {
     fontWeight: 'bold',
-    color: 'white', // Texto blanco
+    color: 'white', 
     fontSize: 17,
   },
   bio: {
     fontWeight: 'normal',
-    color: 'white', // Texto blanco
+    color: 'white', 
     fontSize: 15,
   },
   activity: {
@@ -148,7 +166,7 @@ const styles = StyleSheet.create({
   submit: {
     padding: 10,
     color: 'white',
-    backgroundColor: '#E50914', // Rojo de Netflix
+    backgroundColor: '#E50914', 
     borderRadius: 10,
     marginRight: 10,
     marginLeft: 6,
@@ -161,7 +179,7 @@ const styles = StyleSheet.create({
   },
   nothingText: {
     textAlign: 'center',
-    color: '#E50914', // Rojo de Netflix
+    color: '#E50914', 
     paddingVertical: 20,
   },
   borrar: {
@@ -170,23 +188,23 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   button: {
-    backgroundColor: '#E50914', // Rojo de Netflix
+    backgroundColor: '#E50914', 
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 20,
   },
   buttonText: {
-    color: 'white', // Texto blanco
+    color: 'white', 
     fontWeight: 'bold',
   },
   noUserData: {
-    color: 'white', // Texto blanco
+    color: 'white', 
     fontSize: 17,
     marginBottom: 20,
   },
   noPosts: {
-    color: 'white', // Texto blanco
+    color: 'white', 
     fontSize: 17,
   },
 });
