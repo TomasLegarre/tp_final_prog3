@@ -39,6 +39,10 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
     }
 
+    eliminarCuenta(){
+        this.props.navigation.navigate('EliminarCuenta');
+    }
+
     componentDidMount() {
         this.getData();
     }
@@ -54,6 +58,7 @@ class Profile extends Component {
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
                     </TouchableOpacity>
+
                 </View>
             </View>
         );

@@ -27,6 +27,7 @@ class StackSecundaria extends Component {
               <Stack.Screen name='HomeScreen' component={homeScreen} options={{headerShown :false}}  />
               <Stack.Screen name='NoProfile' component={NoProfile} options={{headerShown :false}}  />
               <Stack.Screen name='Comentarios' component={Comentarios} options={{headerShown :false}}  />
+
             </Stack.Navigator>
     
         )
