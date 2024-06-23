@@ -8,11 +8,11 @@ class Profile extends Component {
         super(props);
 
         this.state = {
-            usuarioInfo: [],
+            userInfo: [],
             userPosts: [],
-            usuarioEmail: '',
+            userEmail: '',
             password: '',
-            loader: true
+            loading: true
         };
     }
 
@@ -20,17 +20,17 @@ class Profile extends Component {
         let user = auth.currentUser.email;
         db.collection("users").where('owner', '==', user)
             .onSnapshot((docs) => {
-                let usuarioInfo = [];
+                let userInfo = [];
                 docs.forEach((doc) => {
-                    usuarioInfo.push({
+                    userInfo.push({
                         id: doc.id,
                         data: doc.data(),
                     });
                 });
                 this.setState({
-                    usuarioInfo: usuarioInfo,
-                    usuarioEmail: user,
-                    loader: false
+                    userInfo: userInfo,
+                    userEmail: user,
+                    loading: false
                 });
                 this.getPost(user);
             });
@@ -48,7 +48,7 @@ class Profile extends Component {
                 });
                 this.setState({
                     userPosts: getUserPost,
-                    loader: false
+                    loading: false
                 });
             });
     }
@@ -81,8 +81,8 @@ class Profile extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.profileContainer}>
-                    <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.username}</Text>
-                    <Text style={styles.bio}>{this.state.usuarioInfo[0]?.data.bio}</Text>
+                    <Text style={styles.username}>{this.state.userInfo[0]?.data.username}</Text>
+                    <Text style={styles.bio}>{this.state.userInfo[0]?.data.bio}</Text>
                     
                     <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
                         <Text style={styles.logoutText}>Logout</Text>
@@ -108,7 +108,7 @@ class Profile extends Component {
 
                     <TouchableOpacity
                         style={styles.deleteButton}
-                        onPress={() => this.borrarUser(this.state.usuarioInfo[0]?.id)}
+                        onPress={() => this.borrarUser(this.state.userInfo[0]?.id)}
                     >
                         <Text style={styles.logoutText}>Borrar el usuario</Text>
                     </TouchableOpacity>

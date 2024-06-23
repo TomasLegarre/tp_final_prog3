@@ -9,16 +9,16 @@ class NoProfile extends Component {
     this.state = {
       userInfo: [],
       userPosts: [],
-      loader: true,
+      loading: true,
       mail: '',
-      profileMail: this.props.route.params.profileMail,
+      userEmail: this.props.route.params.userEmail, // Asegúrate de recibir el parámetro correctamente
     };
   }
     
   getUserData() {
-    let user = this.state.profileMail;
+    let user = this.state.userEmail;
 
-    db.collection("users").where("owner", '==', user)
+    db.collection("users").where("owner", '==', user) // Asegúrate de que el campo coincide con tu base de datos
       .onSnapshot((docs) => {
         let userInfo = [];
         docs.forEach((doc) => {
@@ -29,7 +29,7 @@ class NoProfile extends Component {
         this.setState({
           userInfo: userInfo,
           mail: user,
-          loader: false,
+          loading: false,
         });
         this.getUserPosts(user);
       });
@@ -48,7 +48,7 @@ class NoProfile extends Component {
       });
       this.setState({
         userPosts: userPosts,
-        loader: false,
+        loading: false,
       });
     });
   }
@@ -70,7 +70,7 @@ class NoProfile extends Component {
           
         {userExists ? (
           <>
-            <Text style={styles.texto}>{userInfo[0].data.username}</Text>
+            <Text style={styles.texto}>{userInfo[0].data.name}</Text>
             <Text style={styles.texto}>{userInfo[0].data.owner}</Text>
             <Text style={styles.bio}>{userInfo[0].data.bio}</Text>
           </>
