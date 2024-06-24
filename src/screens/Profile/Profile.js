@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { db, auth } from '../../config/config';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Posteo from '../../Componentes/Posteo';
 
 class Profile extends Component {
@@ -23,6 +23,7 @@ class Profile extends Component {
                 let usuarioInfo = [];
                 docs.forEach((doc) => {
                     usuarioInfo.push({
+                        id: doc.id,
                         data: doc.data(),
                     });
                 });
@@ -72,17 +73,16 @@ class Profile extends Component {
                 return borrarUsuario.delete();
             })
             .then(() => {
-                console.log("alpiste usuario borrado");
+                console.log("Usuario borrado correctamente");
                 this.props.navigation.navigate("Register");
             })
             .catch((error) => {
-                console.log("alpisten't no se pudo borrar", error);
+                console.log("Error al borrar usuario", error);
             });
     }
     
     render() {
         return (
-            <View style={styles.container}>
                 <View style={styles.profileContainer}>
                     <Text style={styles.username}>{this.state.usuarioInfo[0]?.data.username}</Text>
                     <Text style={styles.email}>{this.state.usuarioInfo[0]?.data.owner}</Text>
@@ -117,23 +117,16 @@ class Profile extends Component {
                     />
                     )}
                 </View>
-            </View>
         );
     }
 }    
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#141414', 
-    },
     profileContainer: {
-        width: '80%',
-        padding: 20,
+        flex: 1,
+        width: '100%',
         backgroundColor: '#000',
-        borderRadius: 10,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     username: {
         fontSize: 24,
@@ -157,6 +150,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#e50914', 
         borderRadius: 5,
         alignItems: 'center',
+        marginBottom: 10,
     },
     logoutText: {
         color: 'white',
@@ -179,3 +173,4 @@ const styles = StyleSheet.create({
 });
 
 export default Profile;
+
