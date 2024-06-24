@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react
 import { auth, db } from '../config/config';
 import firebase from 'firebase';
 
+
 class Posteo extends Component {
   constructor() {
     super();
@@ -77,7 +78,7 @@ class Posteo extends Component {
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('NoProfile', { profileMail: this.props.postInfo.data.owner })}>
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('NoProfile', { userEmail: this.props.postInfo.data.owner })}>
           <Text style={styles.buttonText}>Nombre de usuario: {this.props.postInfo.data.owner}</Text>
         </TouchableOpacity>
 

@@ -54,11 +54,11 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
     generalContainer: {
         flex: 1,
-        backgroundColor: '#141414', // Fondo negro
+        backgroundColor: '#141414', 
         padding: 10,
     },
     title: {
-        color: '#E50914', // Rojo Netflix
+        color: '#E50914', 
         fontWeight: 'bold',
         fontSize: 40,
         marginBottom: 20,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     element: {
-        backgroundColor: '#1c1c1c', // Fondo oscuro para cada post
+        backgroundColor: '#1c1c1c', 
         marginVertical: 10,
         marginHorizontal: 20,
         padding: 20,

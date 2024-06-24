@@ -15,28 +15,26 @@ class nuevoPosteo extends Component {
         console.log(this.state);
     }
 
-    crearPosteo(owner, post, imageURL, createdAt) {
-        if (post !== '') {
-            db.collection('posts').add({
-                owner: owner,
-                post: post,
-                imageURL: imageURL,
-                createdAt: createdAt,
-                likes: [],
-                comments: []
-            })
-            .then(res => {
-                console.log(res);
-                this.setState({ posted: true });
-            })
-            .then(() => {
-                if (this.state.posted) {
-                    this.setState({ post: '', imageURL: '' });
-                }
-            })
-            .catch(e => console.log(e));
+        crearPosteo(owner, post, imageURL, createdAt) {
+            if (post !== '') {
+                db.collection('posts').add({
+                    owner: owner,
+                    post: post,
+                    imageURL: imageURL,
+                    createdAt: createdAt,
+                    likes: [],
+                    comments: []
+                })
+                .then(res => {
+                    console.log(res);
+                    this.setState({ posted: true }, () => {
+                        this.props.navigation.navigate('HomeScreen'); 
+                    });
+                })
+                .catch(e => console.log(e));
+            }
         }
-    }
+    
 
     udpateImg(url) {
         this.setState({ imageURL: url });
